@@ -25,6 +25,11 @@ body {
   margin: 0 4px 16px 4px;
   border: solid 2px gray;
   border-radius: 5px;
+  font-size: 32px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 8px;
 }
 
 .button-line {
