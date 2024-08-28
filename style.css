@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+* {
+  font-family: Roboto, serif;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  height: 50px;
+  margin: 0 4px 16px 4px;
+  border: solid 2px gray;
+  border-radius: 5px;
+}
+
+.button-line {
+  display: flex;
+  max-height: 72px;
+}
+
+button {
+  border: none;
+  background: darkgrey;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
+  margin: 4px;
+  padding: 0;
+  font-size: 24px;
+}
+
+button.zero-btn {
+  width: 136px; /* 2x normal size + 8px to offset margin */
+}
+
+button.equal-btn {
+  height: 136px;
+  flex: 1 0 initial;
+  align-self: end;
+}
