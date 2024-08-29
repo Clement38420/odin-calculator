@@ -34,9 +34,14 @@ function addOperator(operatorToAdd) {
   }
 }
 
+function addDotToCurrentNumber() {
+  if (firstNumber && operator && secondNumber && !secondNumber.includes(".")) secondNumber += ".";
+  else if (firstNumber && !firstNumber.includes(".")) firstNumber += ".";
+}
+
 function invertCurrentNumberSign() {
-  if (firstNumber && operator) secondNumber *= -1;
-  else firstNumber *= -1;
+  if (firstNumber && operator && secondNumber) secondNumber *= -1;
+  else if (firstNumber && !operator) firstNumber *= -1;
 }
 
 function clear() {
@@ -52,6 +57,8 @@ function calculate() {
   let result = 0;
   switch (operator) {
     case "÷":
+      if (+secondNumber === 0) return alert("YOU CAN'T DIVIDE BY 0 !!");
+
       result = Math.floor((+firstNumber / +secondNumber) * 1000) / 1000;
       break;
     case "x":
@@ -82,6 +89,8 @@ function checkButtonType(buttonText) {
       invertCurrentNumberSign();
     } else if (buttonText === "C") {
       clear();
+    } else if (buttonText === ".") {
+      addDotToCurrentNumber();
     }
 
     updateScreen();
