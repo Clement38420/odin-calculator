@@ -56,4 +56,9 @@ button.equal-btn {
   height: 136px;
   flex: 1 0 initial;
   align-self: end;
+  background: darkorange;
+}
+
+button.operator {
+  background: #565656;
 }

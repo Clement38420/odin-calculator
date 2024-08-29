@@ -14,6 +14,11 @@ let firstNumber = "";
 let secondNumber = "";
 let operator = "";
 
+function addTextFromKeyboard(e) {
+  const addText = checkInputType(e.key);
+  addText(null);
+}
+
 function updateScreen() {
   screen.childNodes[0].textContent = firstNumber; // first child is the span of the first number
   screen.childNodes[1].textContent = operator;
@@ -26,11 +31,13 @@ function addDigitToCurrentNumber(digit) {
 }
 
 function addOperator(operatorToAdd) {
-  if (secondNumber) {
-    calculate();
-    operator = operatorToAdd;
-  } else {
-    operator = operatorToAdd;
+  if (firstNumber) {
+    if (secondNumber) {
+      calculate();
+      operator = operatorToAdd;
+    } else {
+      operator = operatorToAdd;
+    }
   }
 }
 
@@ -42,6 +49,12 @@ function addDotToCurrentNumber() {
 function invertCurrentNumberSign() {
   if (firstNumber && operator && secondNumber) secondNumber *= -1;
   else if (firstNumber && !operator) firstNumber *= -1;
+}
+
+function popCurrentNumber() {
+  if (firstNumber && operator && secondNumber) secondNumber = secondNumber.slice(0, -1);
+  else if (operator && !secondNumber) operator = "";
+  else firstNumber = firstNumber.slice(0, -1);
 }
 
 function clear() {
@@ -77,20 +90,22 @@ function calculate() {
   secondNumber = "";
 }
 
-function checkButtonType(buttonText) {
+function checkInputType(inputText) {
   return function (e) {
-    if (!isNaN(Number(buttonText))) {
-      addDigitToCurrentNumber(buttonText);
-    } else if (OPERATOR_LIST.includes(buttonText)) {
-      addOperator(buttonText);
-    } else if (buttonText === "=" && secondNumber !== "") {
+    if (!isNaN(Number(inputText))) {
+      addDigitToCurrentNumber(inputText);
+    } else if (OPERATOR_LIST.includes(inputText)) {
+      addOperator(inputText);
+    } else if ((inputText === "=" || inputText === "Enter") && secondNumber !== "") {
       calculate();
-    } else if (buttonText === "+/-") {
+    } else if (inputText === "+/-") {
       invertCurrentNumberSign();
-    } else if (buttonText === "C") {
+    } else if (inputText.toLowerCase() === "c") {
       clear();
-    } else if (buttonText === ".") {
+    } else if (inputText === ".") {
       addDotToCurrentNumber();
+    } else if (inputText === "Backspace") {
+      popCurrentNumber();
     }
 
     updateScreen();
@@ -105,9 +120,10 @@ function generateCalculatorUI() {
     for (let buttonKey in buttonLineList) {
       const button = document.createElement("button");
       button.classList.add(buttonKey + "-btn");
+      if (OPERATOR_LIST.includes(buttonLineList[buttonKey])) button.classList.add("operator")
       button.textContent = buttonLineList[buttonKey];
 
-      button.addEventListener("click", checkButtonType(buttonLineList[buttonKey]))
+      button.addEventListener("click", checkInputType(buttonLineList[buttonKey]))
 
       buttonLine.appendChild(button);
     }
@@ -117,3 +133,4 @@ function generateCalculatorUI() {
 }
 
 document.addEventListener("DOMContentLoaded", generateCalculatorUI);
+document.addEventListener("keydown", addTextFromKeyboard);
